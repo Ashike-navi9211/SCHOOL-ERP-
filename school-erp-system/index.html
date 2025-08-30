@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School ERP System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-card card">
+                <div class="card__body">
+                    <h1>School ERP System</h1>
+                    <p class="login-subtitle">Please select your role and login</p>
+
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <select id="roleSelect" class="form-control" required>
+                                <option value="">Select Role</option>
+                                <option value="owner">Owner</option>
+                                <option value="admin">Admin</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="student">Student</option>
+                                <option value="parent">Parent</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" id="username" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" id="password" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                    </form>
+
+                    <div id="loginError" class="error-message" style="display: none;"></div>
+
+                    <div class="demo-credentials">
+                        <h3>Demo Credentials:</h3>
+                        <div class="credential-group">
+                            <strong>Owner:</strong> username: owner, password: owner123
+                        </div>
+                        <div class="credential-group">
+                            <strong>Admin:</strong> username: admin1, password: admin123
+                        </div>
+                        <div class="credential-group">
+                            <strong>Teacher:</strong> username: teacher1, password: teach123
+                        </div>
+                        <div class="credential-group">
+                            <strong>Student:</strong> username: student1, password: stud123
+                        </div>
+                        <div class="credential-group">
+                            <strong>Parent:</strong> username: parent1, password: parent123
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Owner Dashboard -->
+    <div id="ownerDashboard" class="page">
+        <div class="dashboard">
+            <header class="header">
+                <div class="header__content">
+                    <h1>Owner Dashboard</h1>
+                    <div class="header__actions">
+                        <span id="currentUserName" class="user-name"></span>
+                        <button id="logoutBtn" class="btn btn--secondary">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard__content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Total Admins</h3>
+                            <div class="stat-number" id="totalAdmins">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Total Teachers</h3>
+                            <div class="stat-number" id="totalTeachers">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Total Students</h3>
+                            <div class="stat-number" id="totalStudents">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Total Parents</h3>
+                            <div class="stat-number" id="totalParents">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Admin Management</h2>
+                            <button id="createAdminBtn" class="btn btn--primary">Create Admin</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="adminsTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>System Overview</h2>
+                        </div>
+                        <div class="overview-stats">
+                            <div class="overview-item">
+                                <span class="label">Active Classes:</span>
+                                <span class="value" id="totalClasses">4</span>
+                            </div>
+                            <div class="overview-item">
+                                <span class="label">Subjects:</span>
+                                <span class="value" id="totalSubjects">5</span>
+                            </div>
+                            <div class="overview-item">
+                                <span class="label">Recent Logins:</span>
+                                <span class="value" id="recentLogins">12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="page">
+        <div class="dashboard">
+            <header class="header">
+                <div class="header__content">
+                    <h1>Admin Dashboard</h1>
+                    <div class="header__actions">
+                        <span id="currentAdminName" class="user-name"></span>
+                        <button id="adminLogoutBtn" class="btn btn--secondary">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard__content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Teachers</h3>
+                            <div class="stat-number" id="adminTotalTeachers">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Students</h3>
+                            <div class="stat-number" id="adminTotalStudents">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Parents</h3>
+                            <div class="stat-number" id="adminTotalParents">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Classes</h3>
+                            <div class="stat-number">4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="users">User Management</button>
+                    <button class="tab-btn" data-tab="attendance">Attendance</button>
+                    <button class="tab-btn" data-tab="marks">Marks Management</button>
+                </div>
+
+                <!-- User Management Tab -->
+                <div id="usersTab" class="tab-content active">
+                    <div class="content-grid">
+                        <div class="content-section">
+                            <div class="section-header">
+                                <h2>Create New User</h2>
+                            </div>
+                            <form id="createUserForm" class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">User Type</label>
+                                    <select id="newUserRole" class="form-control" required>
+                                        <option value="">Select Role</option>
+                                        <option value="teacher">Teacher</option>
+                                        <option value="student">Student</option>
+                                        <option value="parent">Parent</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Username</label>
+                                    <input type="text" id="newUserUsername" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" id="newUserPassword" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" id="newUserName" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" id="newUserEmail" class="form-control" required>
+                                </div>
+
+                                <!-- Additional fields for specific roles -->
+                                <div id="teacherFields" class="role-specific-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="form-label">Subject</label>
+                                        <select id="teacherSubject" class="form-control">
+                                            <option value="">Select Subject</option>
+                                            <option value="Mathematics">Mathematics</option>
+                                            <option value="English">English</option>
+                                            <option value="Science">Science</option>
+                                            <option value="History">History</option>
+                                            <option value="Geography">Geography</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Classes (Hold Ctrl for multiple)</label>
+                                        <select id="teacherClasses" class="form-control" multiple>
+                                            <option value="9A">9A</option>
+                                            <option value="9B">9B</option>
+                                            <option value="10A">10A</option>
+                                            <option value="10B">10B</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="studentFields" class="role-specific-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="form-label">Class</label>
+                                        <select id="studentClass" class="form-control">
+                                            <option value="">Select Class</option>
+                                            <option value="9A">9A</option>
+                                            <option value="9B">9B</option>
+                                            <option value="10A">10A</option>
+                                            <option value="10B">10B</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Roll Number</label>
+                                        <input type="text" id="studentRollNo" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div id="parentFields" class="role-specific-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="form-label">Phone</label>
+                                        <input type="tel" id="parentPhone" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Child (Student)</label>
+                                        <select id="parentChild" class="form-control">
+                                            <option value="">Select Student</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn--primary">Create User</button>
+                            </form>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-header">
+                                <h2>All Users</h2>
+                                <div class="filter-controls">
+                                    <select id="userTypeFilter" class="form-control">
+                                        <option value="">All Users</option>
+                                        <option value="teacher">Teachers</option>
+                                        <option value="student">Students</option>
+                                        <option value="parent">Parents</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-container">
+                                <table id="allUsersTable" class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Role</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Tab -->
+                <div id="attendanceTab" class="tab-content">
+                    <div class="content-grid">
+                        <div class="content-section">
+                            <div class="section-header">
+                                <h2>Mark Attendance</h2>
+                            </div>
+                            <form id="attendanceForm" class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" id="attendanceDate" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Class</label>
+                                    <select id="attendanceClass" class="form-control" required>
+                                        <option value="">Select Class</option>
+                                        <option value="9A">9A</option>
+                                        <option value="9B">9B</option>
+                                        <option value="10A">10A</option>
+                                        <option value="10B">10B</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Subject</label>
+                                    <select id="attendanceSubject" class="form-control" required>
+                                        <option value="">Select Subject</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="English">English</option>
+                                        <option value="Science">Science</option>
+                                        <option value="History">History</option>
+                                        <option value="Geography">Geography</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="loadStudentsBtn" class="btn btn--secondary">Load Students</button>
+                            </form>
+
+                            <div id="attendanceList" class="attendance-list" style="display: none;">
+                                <h3>Mark Attendance for Students</h3>
+                                <div id="studentAttendanceList"></div>
+                                <button type="button" id="saveAttendanceBtn" class="btn btn--primary">Save Attendance</button>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-header">
+                                <h2>Attendance Records</h2>
+                            </div>
+                            <div class="table-container">
+                                <table id="attendanceRecordsTable" class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Student</th>
+                                            <th>Class</th>
+                                            <th>Subject</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marks Tab -->
+                <div id="marksTab" class="tab-content">
+                    <div class="content-grid">
+                        <div class="content-section">
+                            <div class="section-header">
+                                <h2>Enter Marks</h2>
+                            </div>
+                            <form id="marksForm" class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Student</label>
+                                    <select id="marksStudent" class="form-control" required>
+                                        <option value="">Select Student</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Subject</label>
+                                    <select id="marksSubject" class="form-control" required>
+                                        <option value="">Select Subject</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="English">English</option>
+                                        <option value="Science">Science</option>
+                                        <option value="History">History</option>
+                                        <option value="Geography">Geography</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Test Type</label>
+                                    <select id="marksTestType" class="form-control" required>
+                                        <option value="">Select Test Type</option>
+                                        <option value="Unit Test 1">Unit Test 1</option>
+                                        <option value="Unit Test 2">Unit Test 2</option>
+                                        <option value="Midterm">Midterm</option>
+                                        <option value="Final Exam">Final Exam</option>
+                                        <option value="Assignment">Assignment</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Marks Obtained</label>
+                                    <input type="number" id="marksObtained" class="form-control" required min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Maximum Marks</label>
+                                    <input type="number" id="marksMaximum" class="form-control" required min="1" value="100">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" id="marksDate" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn--primary">Save Marks</button>
+                            </form>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-header">
+                                <h2>Marks Records</h2>
+                            </div>
+                            <div class="table-container">
+                                <table id="marksRecordsTable" class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Student</th>
+                                            <th>Subject</th>
+                                            <th>Test Type</th>
+                                            <th>Marks</th>
+                                            <th>Max Marks</th>
+                                            <th>Percentage</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Dashboard -->
+    <div id="teacherDashboard" class="page">
+        <div class="dashboard">
+            <header class="header">
+                <div class="header__content">
+                    <h1>Teacher Dashboard</h1>
+                    <div class="header__actions">
+                        <span id="currentTeacherName" class="user-name"></span>
+                        <button id="teacherLogoutBtn" class="btn btn--secondary">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard__content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>My Classes</h3>
+                            <div class="stat-number" id="teacherClasses">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>My Students</h3>
+                            <div class="stat-number" id="teacherStudents">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Subject</h3>
+                            <div class="stat-text" id="teacherSubject">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Attendance Marked</h3>
+                            <div class="stat-number" id="attendanceMarked">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="teacher-attendance">Mark Attendance</button>
+                    <button class="tab-btn" data-tab="teacher-marks">Enter Marks</button>
+                    <button class="tab-btn" data-tab="teacher-students">My Students</button>
+                </div>
+
+                <!-- Teacher Attendance Tab -->
+                <div id="teacher-attendanceTab" class="tab-content active">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Mark Attendance</h2>
+                        </div>
+                        <form id="teacherAttendanceForm" class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Date</label>
+                                <input type="date" id="teacherAttendanceDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Class</label>
+                                <select id="teacherAttendanceClass" class="form-control" required>
+                                    <option value="">Select Class</option>
+                                </select>
+                            </div>
+                            <button type="button" id="teacherLoadStudentsBtn" class="btn btn--secondary">Load Students</button>
+                        </form>
+
+                        <div id="teacherAttendanceList" class="attendance-list" style="display: none;">
+                            <h3>Mark Attendance for Students</h3>
+                            <div id="teacherStudentAttendanceList"></div>
+                            <button type="button" id="teacherSaveAttendanceBtn" class="btn btn--primary">Save Attendance</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teacher Marks Tab -->
+                <div id="teacher-marksTab" class="tab-content">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Enter Marks</h2>
+                        </div>
+                        <form id="teacherMarksForm" class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Student</label>
+                                <select id="teacherMarksStudent" class="form-control" required>
+                                    <option value="">Select Student</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Test Type</label>
+                                <select id="teacherMarksTestType" class="form-control" required>
+                                    <option value="">Select Test Type</option>
+                                    <option value="Unit Test 1">Unit Test 1</option>
+                                    <option value="Unit Test 2">Unit Test 2</option>
+                                    <option value="Midterm">Midterm</option>
+                                    <option value="Final Exam">Final Exam</option>
+                                    <option value="Assignment">Assignment</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Marks Obtained</label>
+                                <input type="number" id="teacherMarksObtained" class="form-control" required min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Maximum Marks</label>
+                                <input type="number" id="teacherMarksMaximum" class="form-control" required min="1" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date</label>
+                                <input type="date" id="teacherMarksDate" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn--primary">Save Marks</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Teacher Students Tab -->
+                <div id="teacher-studentsTab" class="tab-content">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>My Students</h2>
+                        </div>
+                        <div class="table-container">
+                            <table id="teacherStudentsTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Roll No</th>
+                                        <th>Name</th>
+                                        <th>Class</th>
+                                        <th>Email</th>
+                                        <th>Attendance %</th>
+                                        <th>Avg Marks</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div id="studentDashboard" class="page">
+        <div class="dashboard">
+            <header class="header">
+                <div class="header__content">
+                    <h1>Student Dashboard</h1>
+                    <div class="header__actions">
+                        <span id="currentStudentName" class="user-name"></span>
+                        <button id="studentLogoutBtn" class="btn btn--secondary">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard__content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Class</h3>
+                            <div class="stat-text" id="studentClass">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Roll Number</h3>
+                            <div class="stat-text" id="studentRollNumber">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Attendance %</h3>
+                            <div class="stat-number" id="studentAttendancePercent">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Average Marks</h3>
+                            <div class="stat-number" id="studentAverageMarks">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>My Attendance</h2>
+                        </div>
+                        <div class="table-container">
+                            <table id="studentAttendanceTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>My Marks</h2>
+                        </div>
+                        <div class="table-container">
+                            <table id="studentMarksTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Test Type</th>
+                                        <th>Marks</th>
+                                        <th>Max Marks</th>
+                                        <th>Percentage</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parent Dashboard -->
+    <div id="parentDashboard" class="page">
+        <div class="dashboard">
+            <header class="header">
+                <div class="header__content">
+                    <h1>Parent Dashboard</h1>
+                    <div class="header__actions">
+                        <span id="currentParentName" class="user-name"></span>
+                        <button id="parentLogoutBtn" class="btn btn--secondary">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard__content">
+                <div class="child-info">
+                    <h2>Child Information</h2>
+                    <div class="child-details">
+                        <div class="detail-item">
+                            <span class="label">Name:</span>
+                            <span id="childName" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Class:</span>
+                            <span id="childClass" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Roll Number:</span>
+                            <span id="childRollNumber" class="value">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Attendance %</h3>
+                            <div class="stat-number" id="childAttendancePercent">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Average Marks</h3>
+                            <div class="stat-number" id="childAverageMarks">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Present Days</h3>
+                            <div class="stat-number" id="childPresentDays">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__content">
+                            <h3>Total Tests</h3>
+                            <div class="stat-number" id="childTotalTests">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Child's Attendance</h2>
+                        </div>
+                        <div class="table-container">
+                            <table id="childAttendanceTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Child's Marks</h2>
+                        </div>
+                        <div class="table-container">
+                            <table id="childMarksTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Test Type</th>
+                                        <th>Marks</th>
+                                        <th>Max Marks</th>
+                                        <th>Percentage</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Admin Modal -->
+    <div id="createAdminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Admin</h2>
+                <button class="modal-close" onclick="closeModal('createAdminModal')">&times;</button>
+            </div>
+            <form id="createAdminForm" class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="adminUsername" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="adminPassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="adminName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="adminEmail" class="form-control" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn--secondary" onclick="closeModal('createAdminModal')">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Create Admin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message" style="display: none;"></div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
